@@ -10,9 +10,9 @@ public class ServerThread implements Runnable, Observable{
     private ServerSocket ss;
     private Socket cs;
 
-    private int player;
-
     private LinkedList<Observer> observers = new LinkedList<>();
+
+    private boolean isOnline;
 
     @Override
     public void run() {
@@ -31,6 +31,7 @@ public class ServerThread implements Runnable, Observable{
         try {
             cs = ss.accept();
             utils = new SocketUtils(cs);
+            notifyObservers("PLAYER FOUND");
             System.out.println("connession succesful!");
         }
         catch (IOException e) {
@@ -65,8 +66,8 @@ public class ServerThread implements Runnable, Observable{
      * continues to listen and processed data when needed
      * eventually calling manageOutput
      */
-    public void online(int player){
-        this.player = player;
+    public void online(){
+        isOnline = true;
         System.out.println("online!");
         while(!cs.isClosed()){
 
@@ -84,6 +85,11 @@ public class ServerThread implements Runnable, Observable{
             }
         }
         dispose();
+    }
+
+    public void offline(){
+        isOnline = false;
+        while(true){}
     }
 
     /**
