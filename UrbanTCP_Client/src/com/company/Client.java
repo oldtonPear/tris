@@ -2,6 +2,7 @@ package com.company;
 
 import java.net.Socket;
 import java.net.SocketException;
+import java.net.InetAddress;
 
 public class Client {
     private Socket s;
@@ -36,6 +37,7 @@ public class Client {
         } catch (Exception e) {
             e.printStackTrace();
             return "";
+            
         }
     }
 
@@ -57,7 +59,7 @@ public class Client {
 
     public void init() {
         try {
-            s = new Socket("localhost", 1069);
+            s = new Socket("127.0.0.1", 5050);
             if (s.isConnected()) System.out.println("Socket connected");
             SocketIO.init(s);
         } catch (Exception e) {

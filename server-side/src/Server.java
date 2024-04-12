@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Server implements Observer{
     private int[][] board = {
         {-1, -1, -1}, 
@@ -5,16 +7,18 @@ public class Server implements Observer{
         {-1, -1, -1}
       };
 
-    private ServerThread[] serverThreads;
-    private Thread[] threads;
+    private ArrayList<ServerThread> serverThreads;
+    private ArrayList<Thread> threads;
+    private int port = 5050;
 
     Server(){
-        serverThreads = new ServerThread[2];
-        threads = new Thread[2];
-        serverThreads[0] = new ServerThread();
-        threads[0] = new Thread(serverThreads[0]);
-        threads[0].start();
-        serverThreads[0].register(this);
+        serverThreads = new ArrayList<>();
+        threads = new ArrayList<>();
+        serverThreads.add(new ServerThread(port, true));
+        threads.add(new Thread(serverThreads.get(0)));
+        threads.get(0).start();
+        serverThreads.get(0).register(this);
+        port += 20;
     }
 
     @Override
@@ -22,18 +26,19 @@ public class Server implements Observer{
 
         switch (code) {
             case "PLAYER FOUND" -> {
-                if(serverThreads[1] != null){
-                    serverThreads[0].online();
-                    serverThreads[1].offline();
-                    return;
-                }
-                serverThreads[1] = new ServerThread();
-                threads[1] = new Thread(serverThreads[1]);
-                threads[1].start();
-                serverThreads[1].register(this);
+                System.out.println("PLAYER FOUND!!");
+                serverThreads.add(new ServerThread(port, false));
+                threads.add(new Thread(serverThreads.get(serverThreads.size()-1)));
+                threads.get(threads.size()-1).start();
+                serverThreads.get(serverThreads.size()-1).register(this);
+                serverThreads.get(0).manageOutput(port + "");
+                port += 20;
             }
             case "CHANGE TURN" -> {
-                System.out.println("changing turn");
+                
+            }
+            case "PLAYER CONNECTED" -> {
+                System.out.println("player connected");
             }
         }
     }

@@ -14,25 +14,36 @@ public class ServerThread implements Runnable, Observable{
 
     private boolean isOnline;
 
+    private int port;
+
+    private boolean isSorter;
+
+    ServerThread(int port, boolean isSorter){
+        this.port = port;
+        this.isSorter = isSorter;
+    }
+
     @Override
     public void run() {
         try {
-            ss = new ServerSocket(1069);
+            ss = new ServerSocket(port);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        waitForConnession();
+        waitForConnection();
+        //online();
     }
 
     /**
      * waits until a connection is established
      */
-    private void waitForConnession(){
+    private void waitForConnection(){
         try {
+            System.out.println("Waiting for connection at port " + port);
             cs = ss.accept();
             utils = new SocketUtils(cs);
-            notifyObservers("PLAYER FOUND");
-            System.out.println("connession succesful!");
+            if(isSorter) notifyObservers("PLAYER FOUND");
+            else notifyObservers("PLAYER CONNECTED");
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -43,13 +54,16 @@ public class ServerThread implements Runnable, Observable{
      * sends 's' to the connected client
      * @param s
      */
-    private void manageOutput(String s){
+    public void manageOutput(String s){
         utils.out.write(s + '\n');
         utils.out.flush();
+        if(isSorter){
+            dispose();
+        } 
     }
 
 
-    private String manageInput(){
+    public String manageInput(){
         String s = "";
         try {
             s = utils.in.readLine();
@@ -80,7 +94,7 @@ public class ServerThread implements Runnable, Observable{
             }
             
             else if(!input.equals("-1")){
-                System.out.println("Messaggio ricevuto!");
+                System.out.println("Something received on port" + port);
                 manageOutput("Ricevuto!");
             }
         }
@@ -97,11 +111,16 @@ public class ServerThread implements Runnable, Observable{
     */
     private void dispose(){
         try { 
-            System.out.println("Chiudo connessione!");
+            System.out.println("Closing connection on port " + port);
             cs.close();
             cs = null;
             utils.dispose();
-            waitForConnession();
+            try {
+                ss = new ServerSocket(port);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            waitForConnection();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -124,5 +143,7 @@ public class ServerThread implements Runnable, Observable{
             observer.updateObserver(code);
         }
     }
-    
+    public boolean isOnline() {
+        return isOnline;
+    }
 }
