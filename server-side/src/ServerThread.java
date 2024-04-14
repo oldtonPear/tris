@@ -42,7 +42,9 @@ public class ServerThread implements Runnable, Observable{
             System.out.println("Waiting for connection at port " + port);
             cs = ss.accept();
             utils = new SocketUtils(cs);
-            if(isSorter) notifyObservers("PLAYER FOUND");
+            if(isSorter){
+                notifyObservers("PLAYER FOUND");
+            } 
             else notifyObservers("PLAYER CONNECTED");
         }
         catch (IOException e) {

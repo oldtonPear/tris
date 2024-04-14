@@ -6,8 +6,10 @@ import java.net.InetAddress;
 
 public class Client {
     private Socket s;
+    private int port;
 
-    Client(){
+    Client(int port){
+        this.port = port;
         init();
     }
 
@@ -59,7 +61,7 @@ public class Client {
 
     public void init() {
         try {
-            s = new Socket("127.0.0.1", 5050);
+            s = new Socket("127.0.0.1", port);
             if (s.isConnected()) System.out.println("Socket connected");
             SocketIO.init(s);
         } catch (Exception e) {

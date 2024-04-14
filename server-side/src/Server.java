@@ -7,18 +7,18 @@ public class Server implements Observer{
         {-1, -1, -1}
       };
 
-    private ArrayList<ServerThread> serverThreads;
-    private ArrayList<Thread> threads;
+    ServerThread controller;
+    private Thread controllerThread;
+    private ServerThread[] serverThreads;
+    private Thread[] threads;
     private int port = 5050;
 
     Server(){
-        serverThreads = new ArrayList<>();
-        threads = new ArrayList<>();
-        serverThreads.add(new ServerThread(port, true));
-        threads.add(new Thread(serverThreads.get(0)));
-        threads.get(0).start();
-        serverThreads.get(0).register(this);
-        port += 20;
+        serverThreads = new ServerThread[2];
+        threads = new Thread[2];
+        controller = new ServerThread(port, true);
+        controllerThread = new Thread(controller);
+        controllerThread.start();
     }
 
     @Override
@@ -26,13 +26,18 @@ public class Server implements Observer{
 
         switch (code) {
             case "PLAYER FOUND" -> {
+                controller.manageOutput(port + "");
                 System.out.println("PLAYER FOUND!!");
-                serverThreads.add(new ServerThread(port, false));
-                threads.add(new Thread(serverThreads.get(serverThreads.size()-1)));
-                threads.get(threads.size()-1).start();
-                serverThreads.get(serverThreads.size()-1).register(this);
-                serverThreads.get(0).manageOutput(port + "");
                 port += 20;
+                if(port == 5070){
+                    serverThreads[0] = new ServerThread(port, false);
+                    threads[0] = new Thread(serverThreads[0]);
+                    threads[0].start();
+                    return;
+                }
+                serverThreads[1] = new ServerThread(port+40, false);
+                threads[1] = new Thread(serverThreads[1]);
+                threads[1].start();
             }
             case "CHANGE TURN" -> {
                 
