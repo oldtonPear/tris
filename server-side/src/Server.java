@@ -49,7 +49,6 @@ public class Server implements Observer{
                 else{
                     controller.manageOutput("Ports already occupied!!");
                 }
-                controller.dispose();
             }
             case "CHANGE TURN" -> {
                 

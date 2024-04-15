@@ -46,6 +46,8 @@ public class ControllerThread implements Runnable, Observable{
     public void manageOutput(String s){
         utils.out.write(s + '\n');
         utils.out.flush();
+        dispose();
+        waitForConnection();
     }
 
     /**
@@ -57,7 +59,6 @@ public class ControllerThread implements Runnable, Observable{
             cs.close();
             ss.close();
             utils.dispose();
-            waitForConnection();
 
         } catch (IOException e) {
             e.printStackTrace();

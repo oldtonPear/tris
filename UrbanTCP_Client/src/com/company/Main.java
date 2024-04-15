@@ -17,6 +17,7 @@ public class Main {
             c.write("REQUEST");
             String s = c.listen();
             System.out.println(s);
+            c = new Client(Integer.parseInt(s));
         } catch (Exception e) {
             return;
         }
