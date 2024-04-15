@@ -7,18 +7,21 @@ public class Server implements Observer{
         {-1, -1, -1}
       };
 
-    ServerThread controller;
+    private ControllerThread controller;
     private Thread controllerThread;
+    private int controllerPort = 5050;
+
     private ServerThread[] serverThreads;
     private Thread[] threads;
-    private int port = 5050;
+    private int port = controllerPort;
 
     Server(){
         serverThreads = new ServerThread[2];
         threads = new Thread[2];
-        controller = new ServerThread(port, true);
+        controller = new ControllerThread(port);
         controllerThread = new Thread(controller);
         controllerThread.start();
+        controller.register(this);
     }
 
     @Override
@@ -26,18 +29,27 @@ public class Server implements Observer{
 
         switch (code) {
             case "PLAYER FOUND" -> {
-                controller.manageOutput(port + "");
                 System.out.println("PLAYER FOUND!!");
-                port += 20;
-                if(port == 5070){
-                    serverThreads[0] = new ServerThread(port, false);
+                port ++;
+                if(port - controllerPort == 1){
+                    serverThreads[0] = new ServerThread(port);
                     threads[0] = new Thread(serverThreads[0]);
                     threads[0].start();
-                    return;
+                    serverThreads[0].register(this);
+                    controller.manageOutput(port + "");
                 }
-                serverThreads[1] = new ServerThread(port+40, false);
-                threads[1] = new Thread(serverThreads[1]);
-                threads[1].start();
+                
+                else if(port - controllerPort == 2){
+                    serverThreads[1] = new ServerThread(port);
+                    threads[1] = new Thread(serverThreads[1]);
+                    threads[1].start();
+                    serverThreads[1].register(this);
+                    controller.manageOutput(port + "");
+                }
+                else{
+                    controller.manageOutput("Ports already occupied!!");
+                }
+                controller.dispose();
             }
             case "CHANGE TURN" -> {
                 

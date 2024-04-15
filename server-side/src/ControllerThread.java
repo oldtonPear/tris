@@ -3,7 +3,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.LinkedList;
 
-public class ServerThread implements Runnable, Observable{
+public class ControllerThread implements Runnable, Observable{
 
     private SocketUtils utils;
 
@@ -12,18 +12,15 @@ public class ServerThread implements Runnable, Observable{
 
     private LinkedList<Observer> observers = new LinkedList<>();
 
-    private boolean isOnline;
-
     private int port;
 
-    ServerThread(int port){
+    ControllerThread(int port){
         this.port = port;
     }
 
     @Override
     public void run() {
         waitForConnection();
-        online();
     }
 
     /**
@@ -35,7 +32,7 @@ public class ServerThread implements Runnable, Observable{
             System.out.println("Waiting for connection at port " + port);
             cs = ss.accept();
             utils = new SocketUtils(cs);
-            notifyObservers("PLAYER CONNECTED");
+            notifyObservers("PLAYER FOUND");
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -51,50 +48,6 @@ public class ServerThread implements Runnable, Observable{
         utils.out.flush();
     }
 
-
-    public String manageInput(){
-        String s = "";
-        try {
-            s = utils.in.readLine();
-            if(s == null) return "-1";
-            else if(s.equals("")) return "-1";
-            
-        } catch (IOException e) {
-            return "-1";
-        }
-        return s;
-    }
-
-    /**
-     * continues to listen and processed data when needed
-     * eventually calling manageOutput
-     */
-    public void online(){
-        isOnline = true;
-        System.out.println("online!");
-        while(!cs.isClosed()){
-
-            String input = manageInput();
-            
-            if(input.equals("-3")) break;
-
-            if(input.equals("-2")){
-                manageOutput("null");
-            }
-            
-            else if(!input.equals("-1")){
-                System.out.println("Something received on port" + port);
-                manageOutput("Ricevuto!");
-            }
-        }
-        dispose();
-    }
-
-    public void offline(){
-        isOnline = false;
-        while(true){}
-    }
-
     /**
      * disposes resorces
     */
@@ -102,13 +55,8 @@ public class ServerThread implements Runnable, Observable{
         try { 
             System.out.println("Closing connection on port " + port);
             cs.close();
-            cs = null;
+            ss.close();
             utils.dispose();
-            try {
-                ss = new ServerSocket(port);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
             waitForConnection();
 
         } catch (IOException e) {
@@ -131,8 +79,5 @@ public class ServerThread implements Runnable, Observable{
         for (Observer observer : observers) {
             observer.updateObserver(code);
         }
-    }
-    public boolean isOnline() {
-        return isOnline;
     }
 }

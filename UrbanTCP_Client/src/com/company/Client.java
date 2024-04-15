@@ -61,7 +61,9 @@ public class Client {
 
     public void init() {
         try {
-            s = new Socket("127.0.0.1", port);
+
+            s = new Socket("192.168.4.23", port);
+
             if (s.isConnected()) System.out.println("Socket connected");
             SocketIO.init(s);
         } catch (Exception e) {
