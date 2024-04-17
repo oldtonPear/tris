@@ -3,19 +3,20 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.LinkedList;
 
-public class ControllerThread implements Runnable, Observable{
+public class ControllerThread implements Runnable{
 
     private SocketUtils utils;
 
     private ServerSocket ss;
     private Socket cs;
 
-    private LinkedList<Observer> observers = new LinkedList<>();
-
     private int port;
 
-    ControllerThread(int port){
+    PlayersHandler playersHandler;
+
+    ControllerThread(int port, PlayersHandler playersHandler){
         this.port = port;
+        this.playersHandler = playersHandler;
     }
 
     @Override
@@ -31,7 +32,7 @@ public class ControllerThread implements Runnable, Observable{
             ss = new ServerSocket(port);
             cs = ss.accept();
             utils = new SocketUtils(cs);
-            notifyObservers("PLAYER FOUND");
+            playersHandler.setPlayerFound(true);
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -60,23 +61,6 @@ public class ControllerThread implements Runnable, Observable{
 
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void register(Observer o) {
-        observers.add(o);
-    }
-
-    @Override
-    public void unregister(Observer o) {
-        observers.remove(o);
-    }
-
-    @Override
-    public void notifyObservers(String code) {
-        for (Observer observer : observers) {
-            observer.updateObserver(code, port);
         }
     }
 }

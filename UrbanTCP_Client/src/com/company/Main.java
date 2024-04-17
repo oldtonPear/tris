@@ -1,7 +1,5 @@
 package com.company;
 
-import java.io.IOException;
-
 public class Main {
     private static Client c;
 
@@ -18,8 +16,6 @@ public class Main {
             System.out.println(s);
             c = new Client(Integer.parseInt(s));
             c.online();
-        } catch (Exception e) {
-            
-        }
+        } catch (Exception e) {}
     }
 }

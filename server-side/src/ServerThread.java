@@ -3,14 +3,12 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.LinkedList;
 
-public class ServerThread implements Runnable, Observable{
+public class ServerThread implements Runnable{
 
     private SocketUtils utils;
 
     private ServerSocket ss;
     private Socket cs;
-
-    private LinkedList<Observer> observers = new LinkedList<>();
 
     public int port;
 
@@ -37,7 +35,6 @@ public class ServerThread implements Runnable, Observable{
             System.out.println("Waiting for connection at port " + port);
             cs = ss.accept();
             utils = new SocketUtils(cs);
-            notifyObservers("PLAYER CONNECTED");
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -72,12 +69,13 @@ public class ServerThread implements Runnable, Observable{
      * eventually calling manageOutput
      */
     public void online(){
+        System.out.println("ONLINE PORT " + port + playersHandler.getTurnPlayerPort());
         while(!cs.isClosed()){
             if(port == playersHandler.getTurnPlayerPort()){
                 System.out.println("It's my turn " + port);
                 manageOutput("YOUR TURN");
                 String response = manageInput();
-                notifyObservers("CHANGE TURN");
+                playersHandler.changeTurn();
             }
         }
     }
@@ -99,23 +97,6 @@ public class ServerThread implements Runnable, Observable{
 
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void register(Observer o) {
-        observers.add(o);
-    }
-
-    @Override
-    public void unregister(Observer o) {
-        observers.remove(o);
-    }
-
-    @Override
-    public void notifyObservers(String code) {
-        for (Observer observer : observers) {
-            observer.updateObserver(code, port);
         }
     }
 }

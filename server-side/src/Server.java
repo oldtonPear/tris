@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-
-public class Server implements Observer{
+public class Server{
     private int[][] board = {
         {-1, -1, -1}, 
         {-1, -1, -1},
@@ -14,28 +12,25 @@ public class Server implements Observer{
     private ServerThread[] serverThreads;
     private Thread[] threads;
 
-    PlayersHandler playersHandler = new PlayersHandler(controllerPort+1, controllerPort+2);
+    private PlayersHandler playersHandler = new PlayersHandler(controllerPort+1, controllerPort+2);
 
     Server(){
         serverThreads = new ServerThread[2];
         threads = new Thread[2];
-        controller = new ControllerThread(controllerPort);
+        controller = new ControllerThread(controllerPort, playersHandler);
         controllerThread = new Thread(controller);
         controllerThread.start();
-        controller.register(this);
+        checkForPlayers();
     }
 
-    @Override
-    public void updateObserver(String code, int threadPort) {
-
-        switch (code) {
-            case "PLAYER FOUND" -> {
+    public void checkForPlayers(){
+        while(true){
+            if(playersHandler.isPlayerFound()){
                 System.out.println("PLAYER FOUND!!");
                 if(serverThreads[0] == null){
                     serverThreads[0] = new ServerThread(controllerPort+1, playersHandler);
                     threads[0] = new Thread(serverThreads[0]);
                     threads[0].start();
-                    serverThreads[0].register(this);
                     
                     controller.manageOutput(controllerPort+1 + "");
                 }
@@ -44,7 +39,6 @@ public class Server implements Observer{
                     serverThreads[1] = new ServerThread(controllerPort+2, playersHandler);
                     threads[1] = new Thread(serverThreads[1]);
                     threads[1].start();
-                    serverThreads[1].register(this);
                     
                     playersHandler.setSecondPlayerConnected(true);
                     controller.manageOutput(controllerPort+2 + "");
@@ -52,13 +46,6 @@ public class Server implements Observer{
                 else{
                     controller.manageOutput("Ports already occupied!!");
                 }
-            }
-            case "CHANGE TURN" -> {
-                playersHandler.changeTurn();
-                
-            }
-            case "PLAYER CONNECTED" -> {
-                System.out.println("PLAYER CONNECTED AT PORT: " + threadPort);
             }
         }
     }
