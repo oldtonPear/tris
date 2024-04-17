@@ -14,12 +14,12 @@ public class Main {
 
     private static void request() {
         try {
-            c.write("REQUEST");
             String s = c.listen();
             System.out.println(s);
             c = new Client(Integer.parseInt(s));
+            c.online();
         } catch (Exception e) {
-            return;
+            
         }
     }
 }

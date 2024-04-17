@@ -61,7 +61,6 @@ public class Client {
 
     public void init() {
         try {
-
             s = new Socket("localhost", port);
 
             if (s.isConnected()) System.out.println("Socket connected");
@@ -74,9 +73,15 @@ public class Client {
     public void close() {
         try {
             s.close();
+            s = null;
             SocketIO.close();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+    public void online(){
+        while(s.isConnected()){
+            
         }
     }
 }

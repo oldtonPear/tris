@@ -129,7 +129,7 @@ public class ServerThread implements Runnable, Observable{
     @Override
     public void notifyObservers(String code) {
         for (Observer observer : observers) {
-            observer.updateObserver(code);
+            observer.updateObserver(code, port);
         }
     }
     public boolean isOnline() {

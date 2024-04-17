@@ -25,7 +25,7 @@ public class Server implements Observer{
     }
 
     @Override
-    public void updateObserver(String code) {
+    public void updateObserver(String code, int threadPort) {
 
         switch (code) {
             case "PLAYER FOUND" -> {
@@ -54,7 +54,7 @@ public class Server implements Observer{
                 
             }
             case "PLAYER CONNECTED" -> {
-                System.out.println("player connected");
+                System.out.println("PLAYER CONNECTED AT PORT: " + threadPort);
             }
         }
     }

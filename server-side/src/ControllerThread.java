@@ -78,7 +78,7 @@ public class ControllerThread implements Runnable, Observable{
     @Override
     public void notifyObservers(String code) {
         for (Observer observer : observers) {
-            observer.updateObserver(code);
+            observer.updateObserver(code, port);
         }
     }
 }
