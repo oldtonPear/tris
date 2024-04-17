@@ -29,7 +29,6 @@ public class ControllerThread implements Runnable, Observable{
     public void waitForConnection(){
         try {
             ss = new ServerSocket(port);
-            System.out.println("Waiting for connection at port " + port);
             cs = ss.accept();
             utils = new SocketUtils(cs);
             notifyObservers("PLAYER FOUND");
@@ -55,7 +54,6 @@ public class ControllerThread implements Runnable, Observable{
     */
     public void dispose(){
         try { 
-            System.out.println("Closing connection on port " + port);
             cs.close();
             ss.close();
             utils.dispose();

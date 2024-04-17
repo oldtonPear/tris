@@ -12,15 +12,20 @@ public class ServerThread implements Runnable, Observable{
 
     private LinkedList<Observer> observers = new LinkedList<>();
 
-    private int port;
+    public int port;
 
-    ServerThread(int port){
+    private PlayersHandler playersHandler;
+
+    ServerThread(int port, PlayersHandler playersHandler){
         this.port = port;
+        this.playersHandler = playersHandler;
     }
 
     @Override
     public void run() {
         waitForConnection();
+        while(!playersHandler.isSecondPlayerConnected()){}
+        online();
     }
 
     /**
@@ -67,12 +72,13 @@ public class ServerThread implements Runnable, Observable{
      * eventually calling manageOutput
      */
     public void online(){
-        System.out.println("online!");
         while(!cs.isClosed()){
-            manageOutput("YOUR TURN");
-            String responce = manageInput();
-            manageOutput("OK!");
-            notifyObservers("CHANGE TURN");
+            if(port == playersHandler.getTurnPlayerPort()){
+                System.out.println("It's my turn " + port);
+                manageOutput("YOUR TURN");
+                String response = manageInput();
+                notifyObservers("CHANGE TURN");
+            }
         }
     }
 
@@ -81,7 +87,6 @@ public class ServerThread implements Runnable, Observable{
     */
     public void dispose(){
         try { 
-            System.out.println("Closing connection on port " + port);
             cs.close();
             cs = null;
             utils.dispose();

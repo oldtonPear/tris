@@ -3,6 +3,7 @@ package com.company;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.InetAddress;
+import java.util.Scanner;
 
 public class Client {
     private Socket s;
@@ -62,8 +63,6 @@ public class Client {
     public void init() {
         try {
             s = new Socket("localhost", port);
-
-            if (s.isConnected()) System.out.println("Socket connected");
             SocketIO.init(s);
         } catch (Exception e) {
             e.printStackTrace();
@@ -80,12 +79,17 @@ public class Client {
         }
     }
     public void online(){
-        System.out.println("client online");
         while(s.isConnected()){
             String turn = read();
-            System.out.println(turn);
-            write("something");
-            String res = read();
+            if(turn.equals("YOUR TURN")){
+                System.out.println("YOUR TURN!!");
+                try {
+                    Thread.sleep(3000);
+                    write("DONE");
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }

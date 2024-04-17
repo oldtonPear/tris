@@ -13,14 +13,13 @@ public class Server implements Observer{
 
     private ServerThread[] serverThreads;
     private Thread[] threads;
-    private int port = controllerPort;
 
-    private boolean th1Turn;
+    PlayersHandler playersHandler = new PlayersHandler(controllerPort+1, controllerPort+2);
 
     Server(){
         serverThreads = new ServerThread[2];
         threads = new Thread[2];
-        controller = new ControllerThread(port);
+        controller = new ControllerThread(controllerPort);
         controllerThread = new Thread(controller);
         controllerThread.start();
         controller.register(this);
@@ -32,30 +31,30 @@ public class Server implements Observer{
         switch (code) {
             case "PLAYER FOUND" -> {
                 System.out.println("PLAYER FOUND!!");
-                port ++;
-                if(port - controllerPort == 1){
-                    serverThreads[0] = new ServerThread(port);
+                if(serverThreads[0] == null){
+                    serverThreads[0] = new ServerThread(controllerPort+1, playersHandler);
                     threads[0] = new Thread(serverThreads[0]);
                     threads[0].start();
                     serverThreads[0].register(this);
-                    controller.manageOutput(port + "");
-
+                    
+                    controller.manageOutput(controllerPort+1 + "");
                 }
                 
-                else if(port - controllerPort == 2){
-                    serverThreads[1] = new ServerThread(port);
+                else if(serverThreads[1] == null){
+                    serverThreads[1] = new ServerThread(controllerPort+2, playersHandler);
                     threads[1] = new Thread(serverThreads[1]);
                     threads[1].start();
                     serverThreads[1].register(this);
-                    controller.manageOutput(port + "");
-
+                    
+                    playersHandler.setSecondPlayerConnected(true);
+                    controller.manageOutput(controllerPort+2 + "");
                 }
                 else{
                     controller.manageOutput("Ports already occupied!!");
                 }
             }
             case "CHANGE TURN" -> {
-                th1Turn = !th1Turn;
+                playersHandler.changeTurn();
                 
             }
             case "PLAYER CONNECTED" -> {
