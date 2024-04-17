@@ -15,6 +15,8 @@ public class Server implements Observer{
     private Thread[] threads;
     private int port = controllerPort;
 
+    private boolean th1Turn;
+
     Server(){
         serverThreads = new ServerThread[2];
         threads = new Thread[2];
@@ -37,6 +39,7 @@ public class Server implements Observer{
                     threads[0].start();
                     serverThreads[0].register(this);
                     controller.manageOutput(port + "");
+
                 }
                 
                 else if(port - controllerPort == 2){
@@ -45,12 +48,14 @@ public class Server implements Observer{
                     threads[1].start();
                     serverThreads[1].register(this);
                     controller.manageOutput(port + "");
+
                 }
                 else{
                     controller.manageOutput("Ports already occupied!!");
                 }
             }
             case "CHANGE TURN" -> {
+                th1Turn = !th1Turn;
                 
             }
             case "PLAYER CONNECTED" -> {

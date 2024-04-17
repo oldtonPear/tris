@@ -80,8 +80,12 @@ public class Client {
         }
     }
     public void online(){
+        System.out.println("client online");
         while(s.isConnected()){
-            
+            String turn = read();
+            System.out.println(turn);
+            write("something");
+            String res = read();
         }
     }
 }

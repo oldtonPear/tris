@@ -12,8 +12,6 @@ public class ServerThread implements Runnable, Observable{
 
     private LinkedList<Observer> observers = new LinkedList<>();
 
-    private boolean isOnline;
-
     private int port;
 
     ServerThread(int port){
@@ -23,7 +21,6 @@ public class ServerThread implements Runnable, Observable{
     @Override
     public void run() {
         waitForConnection();
-        online();
     }
 
     /**
@@ -70,29 +67,13 @@ public class ServerThread implements Runnable, Observable{
      * eventually calling manageOutput
      */
     public void online(){
-        isOnline = true;
         System.out.println("online!");
         while(!cs.isClosed()){
-
-            String input = manageInput();
-            
-            if(input.equals("-3")) break;
-
-            if(input.equals("-2")){
-                manageOutput("null");
-            }
-            
-            else if(!input.equals("-1")){
-                System.out.println("Something received on port" + port);
-                manageOutput("Ricevuto!");
-            }
+            manageOutput("YOUR TURN");
+            String responce = manageInput();
+            manageOutput("OK!");
+            notifyObservers("CHANGE TURN");
         }
-        dispose();
-    }
-
-    public void offline(){
-        isOnline = false;
-        while(true){}
     }
 
     /**
@@ -131,8 +112,5 @@ public class ServerThread implements Runnable, Observable{
         for (Observer observer : observers) {
             observer.updateObserver(code, port);
         }
-    }
-    public boolean isOnline() {
-        return isOnline;
     }
 }
