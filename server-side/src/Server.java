@@ -7,14 +7,18 @@ public class Server{
 
     private ControllerThread controller;
     private Thread controllerThread;
-    private int controllerPort = 5050;
+    private int controllerPort;
 
     private ServerThread[] serverThreads;
     private Thread[] threads;
 
     private PlayersHandler playersHandler = new PlayersHandler(controllerPort+1, controllerPort+2);
 
+    Server(int port){
+        controllerPort = port;
+    }
     Server(){
+        controllerPort = 5050;
         serverThreads = new ServerThread[2];
         threads = new Thread[2];
         controller = new ControllerThread(controllerPort, playersHandler);

@@ -3,8 +3,10 @@
  * @author Gabriele Urban
  */
 public class Tris_Main extends javax.swing.JFrame {
-    private Main_Menu main_Menu1;
-    private Tris_Board tris_Board1;
+    private static Main_Menu main_Menu1;
+    private static Tris_Board tris_Board1;
+    private static Client client;
+    private static Thread clientThread;
     
     public static void main(String args[]) {
         try {
@@ -71,5 +73,18 @@ public class Tris_Main extends javax.swing.JFrame {
         );
 
         pack();
+    }
+    public static void createClient(int port, String ip){
+        client = new Client(5050, "localhost");
+        clientThread = new Thread(client);
+        clientThread.start();
+    }
+    public static void createServer(int port){
+
+    }
+
+    public static void changeWin(){
+        tris_Board1.setVisible(!tris_Board1.isVisible());
+        main_Menu1.setVisible(!main_Menu1.isVisible());
     }
 }

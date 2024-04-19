@@ -1,17 +1,14 @@
-package com.company;
-
 import java.net.Socket;
 import java.net.SocketException;
-import java.net.InetAddress;
-import java.util.Scanner;
 
-public class Client {
+public class Client implements Runnable{
     private Socket s;
+    private String ip;
     private int port;
 
-    Client(int port){
+    Client(int port, String ip){
+        this.ip = ip;
         this.port = port;
-        init();
     }
 
     public void write(String string) {
@@ -62,8 +59,15 @@ public class Client {
 
     public void init() {
         try {
-            s = new Socket("localhost", port);
+            s = new Socket(ip, port);
             SocketIO.init(s);
+            String str = listen();
+            System.out.println(str);
+            port = Integer.parseInt(str);
+            close();
+            s = new Socket(ip, port);
+            SocketIO.init(s);
+            online();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -91,5 +95,11 @@ public class Client {
                 }
             }
         }
+    }
+
+    @Override
+    public void run() {
+        System.out.println("Client running");
+        init();
     }
 }

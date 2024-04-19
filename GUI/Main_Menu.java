@@ -10,6 +10,8 @@ public class Main_Menu extends javax.swing.JPanel {
     private javax.swing.JTextField Port;
     private javax.swing.JLabel Portlabel;
     private javax.swing.JLabel jLabel1;
+    private String ip;
+    private int port; 
 
     public Main_Menu() {
         initComponents();
@@ -124,6 +126,13 @@ public class Main_Menu extends javax.swing.JPanel {
     }
 
     private void ConfirmActionPerformed(java.awt.event.ActionEvent evt) {
-
+        if(Host.isSelected()){
+            ip = "localhost";
+            Tris_Main.createServer(port);
+        } 
+        else ip = IP.getText();
+        port = Integer.parseInt(Port.getText());
+        Tris_Main.createClient(port, ip);
+        Tris_Main.changeWin();
     }
 }
