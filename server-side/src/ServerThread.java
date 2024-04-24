@@ -14,15 +14,18 @@ public class ServerThread implements Runnable{
 
     private PlayersHandler playersHandler;
 
+    private String board;
+
     ServerThread(int port, PlayersHandler playersHandler){
         this.port = port;
         this.playersHandler = playersHandler;
+        board = "-1,-1,-1,-1,-1,-1,-1,-1,-1";
     }
 
     @Override
     public void run() {
         waitForConnection();
-        while(!playersHandler.isSecondPlayerConnected()){}
+        while(!playersHandler.getBoard().equals("-1,-1,-1,-1,-1,-1,-1,-1,-1")){}
         online();
     }
 
@@ -69,13 +72,20 @@ public class ServerThread implements Runnable{
      * eventually calling manageOutput
      */
     public void online(){
-        System.out.println("ONLINE PORT " + port + playersHandler.getTurnPlayerPort());
+        System.out.println("ONLINE PORT " + port);
         while(!cs.isClosed()){
-            if(port == playersHandler.getTurnPlayerPort()){
+            if(board != playersHandler.getBoard()){
+                board = playersHandler.getBoard();
                 System.out.println("It's my turn " + port);
-                manageOutput("YOUR TURN");
+                manageOutput(board);
                 String response = manageInput();
-                playersHandler.changeTurn();
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                playersHandler.setBoard(response);
             }
         }
     }
@@ -98,5 +108,8 @@ public class ServerThread implements Runnable{
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    public void setBoard(String board) {
+        this.board = board;
     }
 }

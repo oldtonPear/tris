@@ -5,6 +5,7 @@ public class Client implements Runnable{
     private Socket s;
     private String ip;
     private int port;
+    private int player;
 
     Client(int port, String ip){
         this.ip = ip;
@@ -63,7 +64,10 @@ public class Client implements Runnable{
             SocketIO.init(s);
             String str = listen();
             System.out.println(str);
+            int initPort = port;
             port = Integer.parseInt(str);
+            player = port - initPort;
+            System.out.println("I'M PLAYER " + player);
             close();
             s = new Socket(ip, port);
             SocketIO.init(s);
@@ -84,16 +88,10 @@ public class Client implements Runnable{
     }
     public void online(){
         while(s.isConnected()){
-            String turn = read();
-            if(turn.equals("YOUR TURN")){
-                System.out.println("YOUR TURN!!");
-                try {
-                    Thread.sleep(3000);
-                    write("DONE");
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
+            String board = read();
+            System.out.println(board);
+            board = board.concat("a");
+            write(board);
         }
     }
 

@@ -12,7 +12,7 @@ public class Server{
     private ServerThread[] serverThreads;
     private Thread[] threads;
 
-    private PlayersHandler playersHandler = new PlayersHandler(controllerPort+1, controllerPort+2);
+    private PlayersHandler playersHandler = new PlayersHandler();
 
     Server(int port){
         controllerPort = port;
@@ -43,8 +43,8 @@ public class Server{
                     serverThreads[1] = new ServerThread(controllerPort+2, playersHandler);
                     threads[1] = new Thread(serverThreads[1]);
                     threads[1].start();
-                    
-                    playersHandler.setSecondPlayerConnected(true);
+                    serverThreads[0].setBoard("-1,-1,-1,-1,-1,-1,-1,-1,0");
+                    playersHandler.setBoard("-1,-1,-1,-1,-1,-1,-1,-1,-1");
                     controller.manageOutput(controllerPort+2 + "");
                 }
                 else{
