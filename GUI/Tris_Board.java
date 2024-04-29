@@ -1,8 +1,10 @@
+import java.util.LinkedList;
+
 /**
  *
  * @author Gabriele Urban
  */
-public class Tris_Board extends javax.swing.JPanel {
+public class Tris_Board extends javax.swing.JPanel implements Observer{
     private javax.swing.JButton button1;
     private javax.swing.JButton button2;
     private javax.swing.JButton button3;
@@ -21,9 +23,15 @@ public class Tris_Board extends javax.swing.JPanel {
     private javax.swing.JPanel cell7;
     private javax.swing.JPanel cell8;
     private javax.swing.JPanel cell9;
+    private Resources res;
+
+    
     
     public Tris_Board() {
         initComponents();
+    }
+    public void setRes(Resources res) {
+        this.res = res;
     }
 
     @SuppressWarnings("unchecked")
@@ -271,38 +279,47 @@ public class Tris_Board extends javax.swing.JPanel {
     }
 
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {
-        
+        doAction();
     }
     
     private void button2ActionPerformed(java.awt.event.ActionEvent evt) {
-        
+        doAction();
     }
 
     private void button3ActionPerformed(java.awt.event.ActionEvent evt) {
-        
+        doAction();
     }
 
     private void button4ActionPerformed(java.awt.event.ActionEvent evt) {
-        
+        doAction();
     }
 
     private void button5ActionPerformed(java.awt.event.ActionEvent evt) {
-        
+        doAction();
     }
 
     private void button6ActionPerformed(java.awt.event.ActionEvent evt) {
-        
+        doAction();
     }
 
     private void button7ActionPerformed(java.awt.event.ActionEvent evt) {
-        
+        doAction();
     }
 
     private void button8ActionPerformed(java.awt.event.ActionEvent evt) {
-        
+        doAction();
     }
 
     private void button9ActionPerformed(java.awt.event.ActionEvent evt) {
-        
+        doAction();
+    }
+    private void doAction(){ 
+        System.out.println("BUTTON CLICKED");
+        res.setBoard(res.getBoard() + "a");
+    }
+
+    @Override
+    public void update() {
+        System.out.println("CHANGING BOARD STATE");
     }
 }

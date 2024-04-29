@@ -1,15 +1,21 @@
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.LinkedList;
 
-public class Client implements Runnable{
+public class Client implements Runnable, Observable{
     private Socket s;
     private String ip;
     private int port;
     private int player;
+    private String board;
+    private Resources res;
+    private LinkedList<Observer> observers;
 
     Client(int port, String ip){
         this.ip = ip;
         this.port = port;
+        res = new Resources();
+        observers = new LinkedList<>();
     }
 
     public void write(String string) {
@@ -88,10 +94,12 @@ public class Client implements Runnable{
     }
     public void online(){
         while(s.isConnected()){
-            String board = read();
+            board = read();
             System.out.println(board);
-            board = board.concat("a");
-            write(board);
+            res.setBoard(board);
+            notifyObservers();
+            while(board.equals(res.getBoard())){}
+            write(res.getBoard());
         }
     }
 
@@ -99,5 +107,22 @@ public class Client implements Runnable{
     public void run() {
         System.out.println("Client running");
         init();
+    }
+
+    public Resources getRes() {
+        return res;
+    }
+    public void setRes(Resources res) {
+        this.res = res;
+    }
+
+    
+    @Override
+    public void register(Observer o) {
+        observers.add(o);
+    }
+    @Override
+    public void notifyObservers() {
+        observers.getFirst().update();
     }
 }
