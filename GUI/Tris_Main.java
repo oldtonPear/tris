@@ -77,6 +77,11 @@ public class Tris_Main extends javax.swing.JFrame {
     public static void createClient(int port, String ip){
         client = new Client(5050, "localhost");
         clientThread = new Thread(client);
+<<<<<<< HEAD
+=======
+        client.setRes(new Resources());
+        tris_Board1.setRes(client.getRes());
+>>>>>>> f29483331aba3318bef1e1114094541d609685e0
         client.register(tris_Board1);
         clientThread.start();
         tris_Board1.setClient(client);
