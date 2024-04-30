@@ -8,6 +8,7 @@ public class Client implements Runnable, Observable{
     private int port;
     private int player;
     private String board;
+    private Shared_board sh;
     private LinkedList<Observer> observers;
 
     Client(int port, String ip){
@@ -92,11 +93,13 @@ public class Client implements Runnable, Observable{
     }
     public void online(){
         board = read();
-        System.out.println(board);
+        System.out.println("Board ricevuta:" + board);
+        sh.setBoard(board);
         notifyObservers();
-    }
-    public void endTurn(){
+        while(board.equals(sh.getBoard())){}
+        board = sh.getBoard();
         write(board);
+        System.out.println("Board inviata: " + board);
         online();
     }
 
@@ -119,5 +122,8 @@ public class Client implements Runnable, Observable{
     }
     public void setBoard(String board) {
         this.board = board;
+    }
+    public void setSh(Shared_board sh) {
+        this.sh = sh;
     }
 }

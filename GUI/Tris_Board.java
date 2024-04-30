@@ -25,6 +25,7 @@ public class Tris_Board extends javax.swing.JPanel implements Observer{
     private javax.swing.JPanel cell9;
     private boolean myTurn;
     private Client client;
+    private Shared_board sh = new Shared_board();
     
     
     public Tris_Board() {
@@ -313,9 +314,7 @@ public class Tris_Board extends javax.swing.JPanel implements Observer{
     }
     private void doAction(){ 
         if(myTurn){
-            System.out.println("CLICKED");
-            client.setBoard(client.getBoard() + "a");
-            client.endTurn();
+            sh.setBoard(sh.getBoard() + "a");
         } 
         myTurn = false;
     }
@@ -324,9 +323,9 @@ public class Tris_Board extends javax.swing.JPanel implements Observer{
     public void update() {
         System.out.println("MY TURN!");
         myTurn = true;
-        System.out.println(client.getBoard());
     }
     public void setClient(Client client) {
         this.client = client;
+        this.client.setSh(sh);
     }
 }

@@ -77,6 +77,7 @@ public class ServerThread implements Runnable{
                 manageOutput(board);
                 String response = manageInput();
                 playersHandler.setBoard(response);
+                while(response.equals(playersHandler.getBoard())){}
             }
         }
     }
