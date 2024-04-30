@@ -278,41 +278,41 @@ public class Tris_Board extends javax.swing.JPanel implements Observer{
     }
 
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {
-        doAction();
+        doAction(1);
     }
     
     private void button2ActionPerformed(java.awt.event.ActionEvent evt) {
-        doAction();
+        doAction(2);
     }
 
     private void button3ActionPerformed(java.awt.event.ActionEvent evt) {
-        doAction();
+        doAction(3);
     }
 
     private void button4ActionPerformed(java.awt.event.ActionEvent evt) {
-        doAction();
+        doAction(4);
     }
 
     private void button5ActionPerformed(java.awt.event.ActionEvent evt) {
-        doAction();
+        doAction(5);
     }
 
     private void button6ActionPerformed(java.awt.event.ActionEvent evt) {
-        doAction();
+        doAction(6);
     }
 
     private void button7ActionPerformed(java.awt.event.ActionEvent evt) {
-        doAction();
+        doAction(7);
     }
 
     private void button8ActionPerformed(java.awt.event.ActionEvent evt) {
-        doAction();
+        doAction(8);
     }
 
     private void button9ActionPerformed(java.awt.event.ActionEvent evt) {
-        doAction();
+        doAction(9);
     }
-    private void doAction(){ 
+    private void doAction(int n){ 
         if(myTurn){
             sh.setBoard(sh.getBoard() + "a");
         } 
