@@ -35,7 +35,6 @@ public class ServerThread implements Runnable{
     public void waitForConnection(){
         try {
             ss = new ServerSocket(port);
-            System.out.println("Waiting for connection at port " + port);
             cs = ss.accept();
             utils = new SocketUtils(cs);
         }
@@ -72,19 +71,11 @@ public class ServerThread implements Runnable{
      * eventually calling manageOutput
      */
     public void online(){
-        System.out.println("ONLINE PORT " + port);
         while(!cs.isClosed()){
             if(board != playersHandler.getBoard()){
                 board = playersHandler.getBoard();
-                System.out.println("It's my turn " + port);
                 manageOutput(board);
                 String response = manageInput();
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
                 playersHandler.setBoard(response);
             }
         }

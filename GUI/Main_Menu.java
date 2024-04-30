@@ -126,12 +126,13 @@ public class Main_Menu extends javax.swing.JPanel {
     }
 
     private void ConfirmActionPerformed(java.awt.event.ActionEvent evt) {
+        port = Integer.parseInt(Port.getText());
         if(Host.isSelected()){
             ip = "localhost";
             Tris_Main.createServer(port);
         } 
         else ip = IP.getText();
-        port = Integer.parseInt(Port.getText());
+        
         Tris_Main.createClient(port, ip);
         Tris_Main.changeWin();
     }

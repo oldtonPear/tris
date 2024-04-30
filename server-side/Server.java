@@ -1,9 +1,4 @@
-public class Server{
-    private int[][] board = {
-        {-1, -1, -1}, 
-        {-1, -1, -1},
-        {-1, -1, -1}
-      };
+public class Server implements Runnable{
 
     private ControllerThread controller;
     private Thread controllerThread;
@@ -24,13 +19,12 @@ public class Server{
         controller = new ControllerThread(controllerPort, playersHandler);
         controllerThread = new Thread(controller);
         controllerThread.start();
-        checkForPlayers();
     }
 
     public void checkForPlayers(){
+        System.out.println("SERVER ONLINE!");
         while(true){
             if(playersHandler.isPlayerFound()){
-                System.out.println("PLAYER FOUND!!");
                 if(serverThreads[0] == null){
                     serverThreads[0] = new ServerThread(controllerPort+1, playersHandler);
                     threads[0] = new Thread(serverThreads[0]);
@@ -52,5 +46,9 @@ public class Server{
                 }
             }
         }
+    }
+    @Override
+    public void run() {
+        checkForPlayers();
     }
 }
