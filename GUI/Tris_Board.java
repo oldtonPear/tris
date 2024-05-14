@@ -71,8 +71,11 @@ public class Tris_Board extends javax.swing.JPanel implements Observer{
     }
 
     private void doAction(int n){
-        if(myTurn){
-            sh.setBoard(sh.getBoard() + "a");
+        String board = sh.getBoard();
+
+        if(myTurn && board.charAt(n) == 'N'){
+            buttons[n].setVisible(false);
+            sh.setBoard(board.substring(0, n) + (myTurn ? 'X' : 'O') + board.substring(n+1));
         }
         myTurn = false;
     }
@@ -81,6 +84,7 @@ public class Tris_Board extends javax.swing.JPanel implements Observer{
     public void update() {
         System.out.println("MY TURN!");
         myTurn = true;
+        BoardManager.updateButtons(this, sh.getBoard());
     }
 
     public void setClient(Client client) {
