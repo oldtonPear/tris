@@ -17,30 +17,29 @@ public class Tris_Board extends javax.swing.JPanel implements Observer{
     }
 
     private void initComponents() {
-
         cells = new javax.swing.JPanel[9];
-        for (int i = 0; i < cells.length; i++) cells[i] = new javax.swing.JPanel();
-        
         buttons = new javax.swing.JButton[9];
-        for (int i = 0; i < buttons.length; i++) buttons[i] = new javax.swing.JButton();
-
         Xs = new javax.swing.JLabel[9];
-        javax.swing.ImageIcon x = new javax.swing.ImageIcon("./Assets/X.png");
         Os = new javax.swing.JLabel[9];
-        javax.swing.ImageIcon o = new javax.swing.ImageIcon("./Assets/O.png");
-        for (int i = 0; i < Xs.length; i++) {
-            Xs[i] = new javax.swing.JLabel(x);
-            Os[i] = new javax.swing.JLabel(o);
-        }
+
+        javax.swing.ImageIcon x = new javax.swing.ImageIcon("GUI/Assets/X.png");
+        javax.swing.ImageIcon o = new javax.swing.ImageIcon("E:/Github repos/tris/GUI/Assets/O.png");
 
         setPreferredSize(new java.awt.Dimension(390, 235));
         setLayout(new java.awt.GridLayout(3, 3));
 
         for (int i = 0; i < cells.length; i++) {
+            cells[i] = new javax.swing.JPanel();
+            buttons[i] = new javax.swing.JButton();
+            Xs[i] = new javax.swing.JLabel(x);
+            Os[i] = new javax.swing.JLabel(o);
+
             cells[i].setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
             buttons[i].setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
             buttons[i].setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
             buttons[i].setOpaque(false);
+            Xs[i].setVisible(true);
+            Os[i].setVisible(true);
             
             final int t = i;
             buttons[i].addActionListener(new java.awt.event.ActionListener() {
@@ -52,6 +51,7 @@ public class Tris_Board extends javax.swing.JPanel implements Observer{
 
             javax.swing.GroupLayout cellLayout = new javax.swing.GroupLayout(cells[i]);
             cells[i].setLayout(cellLayout);
+
             cellLayout.setHorizontalGroup(
                 cellLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(buttons[i], javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
@@ -60,6 +60,7 @@ public class Tris_Board extends javax.swing.JPanel implements Observer{
                 cellLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(buttons[i], javax.swing.GroupLayout.DEFAULT_SIZE, 131, Short.MAX_VALUE)
             );
+
             buttons[i].getAccessibleContext().setAccessibleDescription("");
             add(cells[i]);
         }
@@ -69,10 +70,10 @@ public class Tris_Board extends javax.swing.JPanel implements Observer{
         doAction(i);
     }
 
-    private void doAction(int n){ 
+    private void doAction(int n){
         if(myTurn){
             sh.setBoard(sh.getBoard() + "a");
-        } 
+        }
         myTurn = false;
     }
 

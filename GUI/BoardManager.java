@@ -1,3 +1,3 @@
-public class BoardManager {
+public abstract class BoardManager {
     
 }
