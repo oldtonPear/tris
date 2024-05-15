@@ -20,9 +20,6 @@ public class Tris_Board extends javax.swing.JPanel implements Observer {
         cells = new javax.swing.JPanel[9];
         buttons = new javax.swing.JButton[9];
 
-        javax.swing.ImageIcon x = new javax.swing.ImageIcon("GUI/Assets/X.png");
-        javax.swing.ImageIcon o = new javax.swing.ImageIcon("E:/Github repos/tris/GUI/Assets/O.png");
-
         setPreferredSize(new java.awt.Dimension(390, 235));
         setLayout(new java.awt.GridLayout(3, 3));
 
@@ -66,7 +63,7 @@ public class Tris_Board extends javax.swing.JPanel implements Observer {
     private void doAction(int n) {
         String board = sh.getBoard();
         if (myTurn && board.charAt(n) == 'N') {
-            //buttons[n].setVisible(false);
+            // buttons[n].setVisible(false);
             sh.setBoard(board.substring(0, n) + (player == 1 ? 'X' : 'O') + board.substring(n + 1));
         }
         myTurn = false;

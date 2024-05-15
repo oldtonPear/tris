@@ -1,9 +1,8 @@
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.LinkedList;
 
-public class ControllerThread implements Runnable{
+public class ControllerThread implements Runnable {
 
     private SocketUtils utils;
 
@@ -12,9 +11,9 @@ public class ControllerThread implements Runnable{
 
     private int port;
 
-    PlayersHandler playersHandler;
+    private PlayersHandler playersHandler;
 
-    ControllerThread(int port, PlayersHandler playersHandler){
+    ControllerThread(int port, PlayersHandler playersHandler) {
         this.port = port;
         this.playersHandler = playersHandler;
     }
@@ -27,23 +26,23 @@ public class ControllerThread implements Runnable{
     /**
      * waits until a connection is established
      */
-    public void waitForConnection(){
+    public void waitForConnection() {
         try {
             ss = new ServerSocket(port);
             cs = ss.accept();
             utils = new SocketUtils(cs);
             playersHandler.setPlayerFound(true);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     /**
      * sends 's' to the connected client
+     * 
      * @param s
      */
-    public void manageOutput(String s){
+    public void manageOutput(String s) {
         utils.out.write(s + '\n');
         utils.out.flush();
         dispose();
@@ -52,9 +51,9 @@ public class ControllerThread implements Runnable{
 
     /**
      * disposes resorces
-    */
-    public void dispose(){
-        try { 
+     */
+    public void dispose() {
+        try {
             cs.close();
             ss.close();
             utils.dispose();
