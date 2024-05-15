@@ -12,7 +12,7 @@ public abstract class BoardManager {
     }
     
     public static void updateButtons(Tris_Board board, String sharedBoard){
-        /*javax.swing.JButton[] buttons = board.getButtons();
+        javax.swing.JButton[] buttons = board.getButtons();
         javax.swing.JLabel[] Xs = board.getXs(), Os = board.getOs();
         
         for (int i = 0; i < 9; i++) {
@@ -30,6 +30,6 @@ public abstract class BoardManager {
                 Xs[i].setVisible(false);
                 Os[i].setVisible(false);
             }
-        }*/
+        }
     }
 }

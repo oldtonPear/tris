@@ -7,6 +7,7 @@ public class Tris_Board extends javax.swing.JPanel implements Observer{
     private javax.swing.JButton[] buttons;
     private javax.swing.JLabel[] Xs, Os;
     
+    private int player = 0;
     private boolean myTurn;
     private Client client;
     private Shared_board sh = new Shared_board();
@@ -74,13 +75,16 @@ public class Tris_Board extends javax.swing.JPanel implements Observer{
         String board = sh.getBoard();
         if(myTurn && board.charAt(n) == 'N'){
             buttons[n].setVisible(false);
-            sh.setBoard(board.substring(0, n) + (myTurn ? 'X' : 'O') + board.substring(n+1));
+            sh.setBoard(board.substring(0, n) + (player == 1 ? 'X' : 'O') + board.substring(n+1));
         }
         myTurn = false;
     }
 
     @Override
     public void update() {
+        if(player == 0){
+            player = client.getPlayer();
+        }
         System.out.println("MY TURN!");
         myTurn = true;
         BoardManager.updateButtons(this, sh.getBoard());

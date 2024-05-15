@@ -126,4 +126,7 @@ public class Client implements Runnable, Observable{
     public void setSh(Shared_board sh) {
         this.sh = sh;
     }
+    public int getPlayer() {
+        return player;
+    }
 }
