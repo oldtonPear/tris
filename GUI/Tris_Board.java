@@ -5,7 +5,6 @@
 public class Tris_Board extends javax.swing.JPanel implements Observer {
     private javax.swing.JPanel[] cells;
     private javax.swing.JButton[] buttons;
-    private javax.swing.JLabel[] Xs, Os;
 
     private int player = 0;
     private boolean myTurn;
@@ -20,8 +19,6 @@ public class Tris_Board extends javax.swing.JPanel implements Observer {
     private void initComponents() {
         cells = new javax.swing.JPanel[9];
         buttons = new javax.swing.JButton[9];
-        Xs = new javax.swing.JLabel[9];
-        Os = new javax.swing.JLabel[9];
 
         javax.swing.ImageIcon x = new javax.swing.ImageIcon("GUI/Assets/X.png");
         javax.swing.ImageIcon o = new javax.swing.ImageIcon("E:/Github repos/tris/GUI/Assets/O.png");
@@ -32,15 +29,11 @@ public class Tris_Board extends javax.swing.JPanel implements Observer {
         for (int i = 0; i < cells.length; i++) {
             cells[i] = new javax.swing.JPanel();
             buttons[i] = new javax.swing.JButton();
-            Xs[i] = new javax.swing.JLabel(x);
-            Os[i] = new javax.swing.JLabel(o);
 
             cells[i].setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
             buttons[i].setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
             buttons[i].setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
             buttons[i].setOpaque(false);
-            Xs[i].setVisible(true);
-            Os[i].setVisible(true);
 
             final int t = i;
             buttons[i].addActionListener(new java.awt.event.ActionListener() {
@@ -113,13 +106,5 @@ public class Tris_Board extends javax.swing.JPanel implements Observer {
 
     public javax.swing.JButton[] getButtons() {
         return buttons;
-    }
-
-    public javax.swing.JLabel[] getXs() {
-        return Xs;
-    }
-
-    public javax.swing.JLabel[] getOs() {
-        return Os;
     }
 }
