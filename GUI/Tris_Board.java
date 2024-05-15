@@ -2,16 +2,16 @@
  *
  * @author Gabriele Urban
  */
-public class Tris_Board extends javax.swing.JPanel implements Observer{
+public class Tris_Board extends javax.swing.JPanel implements Observer {
     private javax.swing.JPanel[] cells;
     private javax.swing.JButton[] buttons;
     private javax.swing.JLabel[] Xs, Os;
-    
+
     private int player = 0;
     private boolean myTurn;
     private Client client;
     private Shared_board sh = new Shared_board();
-    
+
     public Tris_Board() {
         myTurn = false;
         initComponents();
@@ -41,10 +41,10 @@ public class Tris_Board extends javax.swing.JPanel implements Observer{
             buttons[i].setOpaque(false);
             Xs[i].setVisible(true);
             Os[i].setVisible(true);
-            
+
             final int t = i;
             buttons[i].addActionListener(new java.awt.event.ActionListener() {
-                
+
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     buttonActionPerformed(evt, t);
                 }
@@ -54,13 +54,11 @@ public class Tris_Board extends javax.swing.JPanel implements Observer{
             cells[i].setLayout(cellLayout);
 
             cellLayout.setHorizontalGroup(
-                cellLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(buttons[i], javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
-            );
+                    cellLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(buttons[i], javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE));
             cellLayout.setVerticalGroup(
-                cellLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(buttons[i], javax.swing.GroupLayout.DEFAULT_SIZE, 131, Short.MAX_VALUE)
-            );
+                    cellLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(buttons[i], javax.swing.GroupLayout.DEFAULT_SIZE, 131, Short.MAX_VALUE));
 
             buttons[i].getAccessibleContext().setAccessibleDescription("");
             add(cells[i]);
@@ -69,25 +67,38 @@ public class Tris_Board extends javax.swing.JPanel implements Observer{
 
     private void buttonActionPerformed(java.awt.event.ActionEvent evt, int i) {
         doAction(i);
+        updateButtons();
     }
 
-    private void doAction(int n){
+    private void doAction(int n) {
         String board = sh.getBoard();
-        if(myTurn && board.charAt(n) == 'N'){
-            buttons[n].setVisible(false);
-            sh.setBoard(board.substring(0, n) + (player == 1 ? 'X' : 'O') + board.substring(n+1));
+        if (myTurn && board.charAt(n) == 'N') {
+            //buttons[n].setVisible(false);
+            sh.setBoard(board.substring(0, n) + (player == 1 ? 'X' : 'O') + board.substring(n + 1));
         }
         myTurn = false;
     }
 
     @Override
     public void update() {
-        if(player == 0){
+        if (player == 0) {
             player = client.getPlayer();
         }
         System.out.println("MY TURN!");
         myTurn = true;
-        BoardManager.updateButtons(this, sh.getBoard());
+        updateButtons();
+        // BoardManager.updateButtons(this, sh.getBoard());
+    }
+
+    public void updateButtons() {
+        String board = sh.getBoard();
+        for (int i = 0; i < buttons.length; i++) {
+            if (board.charAt(i) == 'X') {
+                buttons[i].setIcon(new javax.swing.ImageIcon("GUI\\Assets\\X.png"));
+            } else if (board.charAt(i) == 'O') {
+                buttons[i].setIcon(new javax.swing.ImageIcon("GUI\\Assets\\O.png"));
+            }
+        }
     }
 
     public void setClient(Client client) {
@@ -100,16 +111,13 @@ public class Tris_Board extends javax.swing.JPanel implements Observer{
         return cells;
     }
 
-
     public javax.swing.JButton[] getButtons() {
         return buttons;
     }
 
-
     public javax.swing.JLabel[] getXs() {
         return Xs;
     }
-
 
     public javax.swing.JLabel[] getOs() {
         return Os;
