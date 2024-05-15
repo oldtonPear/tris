@@ -37,8 +37,8 @@ public class Server implements Runnable{
                     serverThreads[1] = new ServerThread(controllerPort+2, playersHandler);
                     threads[1] = new Thread(serverThreads[1]);
                     threads[1].start();
-                    serverThreads[0].setBoard("-1,-1,-1,-1,-1,-1,-1,-1,0");
-                    playersHandler.setBoard("-1,-1,-1,-1,-1,-1,-1,-1,-1");
+                    serverThreads[0].setBoard("0NNNNNNNN");
+                    playersHandler.setBoard("NNNNNNNNN");
                     controller.manageOutput(controllerPort+2 + "");
                 }
                 else{

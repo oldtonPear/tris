@@ -19,13 +19,13 @@ public class ServerThread implements Runnable{
     ServerThread(int port, PlayersHandler playersHandler){
         this.port = port;
         this.playersHandler = playersHandler;
-        board = "-1,-1,-1,-1,-1,-1,-1,-1,-1";
+        board = "NNNNNNNNN";
     }
 
     @Override
     public void run() {
         waitForConnection();
-        while(!playersHandler.getBoard().equals("-1,-1,-1,-1,-1,-1,-1,-1,-1")){}
+        while(!playersHandler.getBoard().equals("NNNNNNNNN")){}
         online();
     }
 
