@@ -56,6 +56,8 @@ public class Tris_Board extends javax.swing.JPanel implements Observer {
     }
 
     private void buttonActionPerformed(java.awt.event.ActionEvent evt, int i) {
+        if (buttons[i].getIcon() != null)
+            return;
         doAction(i);
         updateButtons();
     }
