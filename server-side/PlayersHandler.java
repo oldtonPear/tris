@@ -7,15 +7,16 @@ public class PlayersHandler {
     public synchronized boolean isPlayerFound() {
         return playerFound;
     }
+
     public synchronized void setPlayerFound(boolean playerFound) {
         this.playerFound = playerFound;
     }
 
-    public synchronized void setBoard(String board){
+    public synchronized void setBoard(String board) {
         this.board = board;
     }
+
     public synchronized String getBoard() {
         return board;
     }
 }
- 

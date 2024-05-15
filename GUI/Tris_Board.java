@@ -65,7 +65,6 @@ public class Tris_Board extends javax.swing.JPanel implements Observer {
     private void doAction(int n) {
         String board = sh.getBoard();
         if (myTurn && board.charAt(n) == 'N') {
-            // buttons[n].setVisible(false);
             sh.setBoard(board.substring(0, n) + (player == 1 ? 'X' : 'O') + board.substring(n + 1));
         }
         myTurn = false;

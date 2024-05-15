@@ -14,11 +14,13 @@ public class ServerThread implements Runnable {
     private PlayersHandler playersHandler;
 
     private String board;
+    private char myChar;
 
     ServerThread(int port, PlayersHandler playersHandler) {
         this.port = port;
         this.playersHandler = playersHandler;
         board = "NNNNNNNNN";
+        myChar = '\0';
     }
 
     @Override
@@ -85,6 +87,9 @@ public class ServerThread implements Runnable {
                 playersHandler.setBoard(response);
                 while (response.equals(playersHandler.getBoard())) {
                 }
+                youWin();
+                if (playersHandler.getBoard().equals("X") || playersHandler.getBoard().equals("O"))
+                    System.out.println("Win!");
             }
         }
     }
@@ -111,5 +116,20 @@ public class ServerThread implements Runnable {
 
     public void setBoard(String board) {
         this.board = board;
+    }
+
+    private void youWin() {
+        for (int i = 0; i < 3; i += 3) {
+            if (board.charAt(i) == board.charAt(i + 1)
+                    && board.charAt(i) == board.charAt(i + 2)) {
+                System.out.println("TRIS");
+            }
+        }
+        for (int i = 0; i < 3; i++) {
+            if (board.charAt(i) != 'N' && board.charAt(i) == board.charAt(i + 3)
+                    && board.charAt(i) == board.charAt(i + 6)) {
+                System.out.println("TRIS");
+            }
+        }
     }
 }
