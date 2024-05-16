@@ -80,14 +80,11 @@ public class Tris_Board extends javax.swing.JPanel implements Observer {
 
         int checkWin = checkForWin();
         if(checkWin == 0) updateButtons();
-        if(checkWin == 1){
-            System.out.println("YOU WIN!!"); //reset here
+        if(checkWin == 1 || checkWin == 2){
+            System.out.println(checkWin == 1 ? "YOU WIN!!" : "SADGE"); //reset here
             sh.setBoard("OK");
-        } 
-        if(checkWin == 2){
-            System.out.println("SADGE"); //or here
-            sh.setBoard("OK");
-        } 
+            GUI_Main.changeWin();
+        }
         //ricordati di chiudere il thread client
     }
 
@@ -106,7 +103,7 @@ public class Tris_Board extends javax.swing.JPanel implements Observer {
                 buttons[i].setIcon(new javax.swing.ImageIcon("GUI\\Assets\\X.png"));
             } else if (board.charAt(i) == 'O') {
                 buttons[i].setIcon(new javax.swing.ImageIcon("GUI\\Assets\\O.png"));
-            }
+            } else buttons[i].setIcon(null);
         }
     }
 

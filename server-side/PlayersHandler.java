@@ -15,7 +15,7 @@ public class PlayersHandler {
     public synchronized void setBoard(String board) {
         this.board = board;
         int winner = checkWin();
-        if(checkWin() != 0){
+        if(winner != 0){
             this.board = winner + "";
         }
         System.out.println(this.board);
