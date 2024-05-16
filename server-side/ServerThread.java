@@ -24,8 +24,7 @@ public class ServerThread implements Runnable {
     @Override
     public void run() {
         waitForConnection();
-        while (!playersHandler.getBoard().equals("NNNNNNNNN")) {
-        }
+        while (!playersHandler.getBoard().equals("NNNNNNNNN")) {}
         online();
     }
     
@@ -82,7 +81,11 @@ public class ServerThread implements Runnable {
                 board = playersHandler.getBoard();
                 manageOutput(board);
                 String response = manageInput();
-                if(response.equals("OK")) playersHandler.addToDone();
+                if(response.equals("OK")){
+                    dispose();
+                    System.out.println("ENDING GAME");
+                    break;
+                } 
                 else playersHandler.setBoard(response);
                 while (response.equals(playersHandler.getBoard())) {}
             }
@@ -97,13 +100,7 @@ public class ServerThread implements Runnable {
             cs.close();
             cs = null;
             utils.dispose();
-            try {
-                ss = new ServerSocket(port);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            waitForConnection();
-            
+            ss.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -4,8 +4,6 @@ public class PlayersHandler {
 
     private boolean playerFound = false;
 
-    private int done = 0;
-
     public synchronized boolean isPlayerFound() {
         return playerFound;
     }
@@ -20,6 +18,7 @@ public class PlayersHandler {
         if(checkWin() != 0){
             this.board = winner + "";
         }
+        System.out.println(this.board);
     }
 
     public synchronized String getBoard() {
@@ -47,7 +46,6 @@ public class PlayersHandler {
         if (condition2) playerWon = mat[0][2];
         
         if (playerWon != ' ') {
-            System.out.println("Someone Won");
             return playerWon == 'X' ? 1 : 2;
         }
         
@@ -55,12 +53,5 @@ public class PlayersHandler {
             if (board.charAt(i) == 'N') return 0;
         }
         return 3;
-    }
-    
-    public synchronized void addToDone(){
-        done++;
-    }
-    public synchronized int getDone() {
-        return done;
     }
 }

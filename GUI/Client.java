@@ -100,7 +100,8 @@ public class Client implements Runnable, Observable{
         board = sh.getBoard();
         write(board);
         System.out.println("Board inviata: " + board);
-        online();
+        if(!board.equals("OK")) online();
+        else close();
     }
 
     @Override

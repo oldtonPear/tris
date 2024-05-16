@@ -45,16 +45,6 @@ public class Server implements Runnable{
                     controller.manageOutput("Ports already occupied!!");
                 }
             }
-
-            if(playersHandler.getDone() >= 2){
-                playersHandler = new PlayersHandler();
-                try {
-                    threads[0].join();
-                    threads[1].join();
-                } catch (InterruptedException e) { e.printStackTrace();}
-                serverThreads = new ServerThread[2];
-                threads = new Thread[2];
-            }
         }
     }
     @Override
