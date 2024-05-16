@@ -77,8 +77,21 @@ public class Tris_Board extends javax.swing.JPanel implements Observer {
         }
         System.out.println("MY TURN!");
         myTurn = true;
-        updateButtons();
-        // BoardManager.updateButtons(this, sh.getBoard());
+
+        int checkWin = checkForWin();
+        if(checkWin == 0) updateButtons();
+        if(checkWin == 1) System.out.println("YOU WIN!!"); //reset here
+        if(checkWin == 2) System.out.println("SADGE"); //or here
+        //nel metodo reset, come prima cosa, poni la board a: "OK"
+        //ricordati di chiudere il thread client
+    }
+
+    public int checkForWin(){
+        String board = sh.getBoard();
+        if(board.length() == 1){
+            return board.equals(player + "") ? 1 : 2;
+        }
+        return 0;
     }
 
     public void updateButtons() {

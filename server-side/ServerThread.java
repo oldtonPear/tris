@@ -14,13 +14,11 @@ public class ServerThread implements Runnable {
     private PlayersHandler playersHandler;
     
     private String board;
-    private char myChar;
     
     ServerThread(int port, PlayersHandler playersHandler) {
         this.port = port;
         this.playersHandler = playersHandler;
         board = "NNNNNNNNN";
-        myChar = '\0';
     }
     
     @Override
@@ -84,12 +82,9 @@ public class ServerThread implements Runnable {
                 board = playersHandler.getBoard();
                 manageOutput(board);
                 String response = manageInput();
-                playersHandler.setBoard(response);
-                while (response.equals(playersHandler.getBoard())) {
-                }
-                checkWin();
-                if (playersHandler.getBoard().equals("X") || playersHandler.getBoard().equals("O"))
-                System.out.println("Win!");
+                if(response.equals("OK")) playersHandler.addToDone();
+                else playersHandler.setBoard(response);
+                while (response.equals(playersHandler.getBoard())) {}
             }
         }
     }
@@ -116,36 +111,5 @@ public class ServerThread implements Runnable {
     
     public void setBoard(String board) {
         this.board = board;
-    }
-    
-    private void checkWin() {
-        char[][] mat = {
-            {board.charAt(0), board.charAt(1), board.charAt(2)},
-            {board.charAt(3), board.charAt(4), board.charAt(5)},
-            {board.charAt(6), board.charAt(7), board.charAt(8)}
-        };
-        char playerWon = ' ';
-        
-        for (int i = 0; i < 3; i += 3) {
-            boolean condition1 = (mat[i][0] != 'N' && mat[i][0] == mat[i][1] && mat[i][0] == mat[i][2]);
-            boolean condition2 = (mat[0][i] != 'N' && mat[0][i] == mat[1][i] && mat[0][i] == mat[2][i]);
-            if (condition1) playerWon = mat[i][0];
-            if (condition2) playerWon = mat[0][1];
-        }
-
-        boolean condition1 = (mat[0][0] != 'N' && mat[0][0] == mat[1][1] && mat[0][0] == mat[2][2]);
-        boolean condition2 = (mat[0][2] != 'N' && mat[0][2] == mat[1][1] && mat[0][2] == mat[2][0]);
-        if (condition1) playerWon = mat[0][0];
-        if (condition2) playerWon = mat[0][2];
-        
-        if (playerWon != ' ') {
-            System.out.println((playerWon == 'X' ? "Giocatore 1 ha vinto" : "Giocatore 2 ha vinto"));
-            return;
-        }
-        
-        for (int i = 0; i < 9; i++) {
-            if (board.charAt(i) == 'N') return;
-        }
-        System.out.println("Patta");
     }
 }
