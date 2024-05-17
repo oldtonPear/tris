@@ -6,7 +6,6 @@ public class GUI_Main extends javax.swing.JFrame {
     private static Tris_Main mainMenu;
     private static Tris_Board trisBoard;
     private static Client client;
-    private static Thread clientThread;
 
     public static void main(String args[]) {
         try {
@@ -76,16 +75,14 @@ public class GUI_Main extends javax.swing.JFrame {
 
     public static void createClient(int port, String ip) {
         client = new Client(5050, "localhost");
-        clientThread = new Thread(client);
         client.register(trisBoard);
-        clientThread.start();
+        client.start();
         trisBoard.setClient(client);
     }
 
     public static void createServer(int port) {
         Server s = new Server();
-        Thread ts = new Thread(s);
-        ts.start();
+        s.start();
     }
 
     public static void changeWin() {

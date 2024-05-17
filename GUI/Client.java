@@ -2,7 +2,7 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.LinkedList;
 
-public class Client implements Runnable, Observable{
+public class Client extends Thread implements Observable{
     private Socket s;
     private String ip;
     private int port;

@@ -2,7 +2,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class ServerThread implements Runnable {
+public class ServerThread extends Thread {
     
     private SocketUtils utils;
     
@@ -64,7 +64,6 @@ public class ServerThread implements Runnable {
             return "-1";
             else if (s.equals(""))
             return "-1";
-            
         } catch (IOException e) {
             return "-1";
         }

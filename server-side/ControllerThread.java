@@ -2,7 +2,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class ControllerThread implements Runnable {
+public class ControllerThread extends Thread {
 
     private SocketUtils utils;
 
