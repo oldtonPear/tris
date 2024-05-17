@@ -81,7 +81,7 @@ public class ServerThread extends Thread {
                     dispose();
                     System.out.println("ENDING GAME");
                     break;
-                } 
+                }
                 else PlayersHandler.setBoard(response);
                 while (response.equals(PlayersHandler.getBoard())) {}
             }

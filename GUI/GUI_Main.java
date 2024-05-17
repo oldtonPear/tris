@@ -74,7 +74,7 @@ public class GUI_Main extends javax.swing.JFrame {
     }
 
     public static void createClient(int port, String ip) {
-        client = new Client(5050, "localhost");
+        client = new Client(port, ip);
         client.register(trisBoard);
         client.start();
         trisBoard.setClient(client);

@@ -129,8 +129,7 @@ public class Tris_Main extends javax.swing.JPanel {
         if(Host.isSelected()){
             ip = "localhost";
             GUI_Main.createServer(port);
-        } 
-        else ip = IP.getText();
+        } else ip = IP.getText();
         
         GUI_Main.createClient(port, ip);
         GUI_Main.changeWin();

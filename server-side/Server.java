@@ -29,15 +29,13 @@ public class Server extends Thread{
                     serverThreads[0].start();
                     controller.manageOutput(controllerPort+1 + "");
                 }
-                
                 else if(serverThreads[1] == null){
                     serverThreads[1] = new ServerThread(controllerPort+2);
                     serverThreads[1].start();
                     serverThreads[0].setBoard("0NNNNNNNN");
                     PlayersHandler.setBoard("NNNNNNNNN");
                     controller.manageOutput(controllerPort+2 + "");
-                }
-                else{
+                }else{
                     controller.manageOutput("Ports already occupied!!");
                 }
             }

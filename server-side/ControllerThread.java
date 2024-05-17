@@ -3,33 +3,29 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class ControllerThread extends Thread {
-
+    
     private SocketUtils utils;
-
+    
     private ServerSocket ss;
     private Socket cs;
-
     private int port;
-
-    private boolean continue1 = true;
-
+    
     ControllerThread(int port) {
         this.port = port;
     }
-
+    
     @Override
     public void run() {
         while (true) {
-            if (continue1) {
+            if (!PlayersHandler.isPlayerFound()) {
                 waitForConnection();
-                continue1 = false;
             }
         }
     }
-
+    
     /**
-     * waits until a connection is established
-     */
+    * waits until a connection is established
+    */
     public void waitForConnection() {
         try {
             ss = new ServerSocket(port);
@@ -40,31 +36,30 @@ public class ControllerThread extends Thread {
             e.printStackTrace();
         }
     }
-
+    
     /**
-     * sends 's' to the connected client
-     * 
-     * @param s
-     */
+    * sends 's' to the connected client
+    * 
+    * @param s
+    */
     public void manageOutput(String s) {
         utils.out.write(s + '\n');
         utils.out.flush();
         dispose();
-        continue1 = true;
+        PlayersHandler.setPlayerFound(false);
     }
-
+    
     /**
-     * disposes resorces
-     */
+    * disposes resorces
+    */
     public void dispose() {
         try {
             cs.close();
             ss.close();
             utils.dispose();
-
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        
     }
 }
