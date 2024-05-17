@@ -5,34 +5,36 @@ public class Server extends Thread{
 
     private ServerThread[] serverThreads;
 
-    private PlayersHandler playersHandler = new PlayersHandler();
-
     Server(int port){
         controllerPort = port;
-    }
-    Server(){
-        controllerPort = 5050;
         serverThreads = new ServerThread[2];
-        controller = new ControllerThread(controllerPort, playersHandler);
+        controller = new ControllerThread(controllerPort);
         controller.start();
     }
 
-    public void checkForPlayers(){
+    Server(){
+        controllerPort = 5050;
+        serverThreads = new ServerThread[2];
+        controller = new ControllerThread(controllerPort);
+        controller.start();
+    }
+
+    @Override
+    public void run() {
         System.out.println("SERVER ONLINE!");
         while(true){
-            if(playersHandler.isPlayerFound()){
+            if(PlayersHandler.isPlayerFound()){
                 if(serverThreads[0] == null){
-                    serverThreads[0] = new ServerThread(controllerPort+1, playersHandler);
+                    serverThreads[0] = new ServerThread(controllerPort+1);
                     serverThreads[0].start();
-                    
                     controller.manageOutput(controllerPort+1 + "");
                 }
                 
                 else if(serverThreads[1] == null){
-                    serverThreads[1] = new ServerThread(controllerPort+2, playersHandler);
+                    serverThreads[1] = new ServerThread(controllerPort+2);
                     serverThreads[1].start();
                     serverThreads[0].setBoard("0NNNNNNNN");
-                    playersHandler.setBoard("NNNNNNNNN");
+                    PlayersHandler.setBoard("NNNNNNNNN");
                     controller.manageOutput(controllerPort+2 + "");
                 }
                 else{
@@ -40,9 +42,5 @@ public class Server extends Thread{
                 }
             }
         }
-    }
-    @Override
-    public void run() {
-        checkForPlayers();
     }
 }

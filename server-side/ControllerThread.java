@@ -11,16 +11,20 @@ public class ControllerThread extends Thread {
 
     private int port;
 
-    private PlayersHandler playersHandler;
+    private boolean continue1 = true;
 
-    ControllerThread(int port, PlayersHandler playersHandler) {
+    ControllerThread(int port) {
         this.port = port;
-        this.playersHandler = playersHandler;
     }
 
     @Override
     public void run() {
-        waitForConnection();
+        while (true) {
+            if (continue1) {
+                waitForConnection();
+                continue1 = false;
+            }
+        }
     }
 
     /**
@@ -31,7 +35,7 @@ public class ControllerThread extends Thread {
             ss = new ServerSocket(port);
             cs = ss.accept();
             utils = new SocketUtils(cs);
-            playersHandler.setPlayerFound(true);
+            PlayersHandler.setPlayerFound(true);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -46,7 +50,7 @@ public class ControllerThread extends Thread {
         utils.out.write(s + '\n');
         utils.out.flush();
         dispose();
-        waitForConnection();
+        continue1 = true;
     }
 
     /**

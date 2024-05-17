@@ -1,31 +1,31 @@
-public class PlayersHandler {
+public abstract class PlayersHandler {
 
-    private String board = "";
+    private static String board = "";
 
-    private boolean playerFound = false;
+    private static boolean playerFound = false;
 
-    public synchronized boolean isPlayerFound() {
+    public static synchronized boolean isPlayerFound() {
         return playerFound;
     }
 
-    public synchronized void setPlayerFound(boolean playerFound) {
-        this.playerFound = playerFound;
+    public static synchronized void setPlayerFound(boolean value) {
+        playerFound = value;
     }
 
-    public synchronized void setBoard(String board) {
-        this.board = board;
+    public static synchronized void setBoard(String newBoard) {
+        board = newBoard;
         int winner = checkWin();
         if(winner != 0){
-            this.board = winner + "";
+            board = winner + "";
         }
-        System.out.println(this.board);
+        System.out.println(board);
     }
 
-    public synchronized String getBoard() {
+    public static synchronized String getBoard() {
         return board;
     }
 
-    private int checkWin() {
+    private static int checkWin() {
         char[][] mat = {
             {board.charAt(0), board.charAt(1), board.charAt(2)},
             {board.charAt(3), board.charAt(4), board.charAt(5)},

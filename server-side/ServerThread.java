@@ -11,20 +11,17 @@ public class ServerThread extends Thread {
     
     public int port;
     
-    private PlayersHandler playersHandler;
-    
     private String board;
     
-    ServerThread(int port, PlayersHandler playersHandler) {
+    ServerThread(int port) {
         this.port = port;
-        this.playersHandler = playersHandler;
         board = "NNNNNNNNN";
     }
     
     @Override
     public void run() {
         waitForConnection();
-        while (!playersHandler.getBoard().equals("NNNNNNNNN")) {}
+        while (!PlayersHandler.getBoard().equals("NNNNNNNNN")) {}
         online();
     }
     
@@ -76,8 +73,8 @@ public class ServerThread extends Thread {
     */
     public void online() {
         while (!cs.isClosed()) {
-            if (board != playersHandler.getBoard()) {
-                board = playersHandler.getBoard();
+            if (board != PlayersHandler.getBoard()) {
+                board = PlayersHandler.getBoard();
                 manageOutput(board);
                 String response = manageInput();
                 if(response.equals("OK")){
@@ -85,8 +82,8 @@ public class ServerThread extends Thread {
                     System.out.println("ENDING GAME");
                     break;
                 } 
-                else playersHandler.setBoard(response);
-                while (response.equals(playersHandler.getBoard())) {}
+                else PlayersHandler.setBoard(response);
+                while (response.equals(PlayersHandler.getBoard())) {}
             }
         }
     }

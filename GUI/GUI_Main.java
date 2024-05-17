@@ -81,7 +81,7 @@ public class GUI_Main extends javax.swing.JFrame {
     }
 
     public static void createServer(int port) {
-        Server s = new Server();
+        Server s = new Server(port);
         s.start();
     }
 
