@@ -88,6 +88,5 @@ public class GUI_Main extends javax.swing.JFrame {
     public static void changeWin() {
         trisBoard.setVisible(!trisBoard.isVisible());
         mainMenu.setVisible(!mainMenu.isVisible());
-        trisBoard.updateButtons();
     }
 }

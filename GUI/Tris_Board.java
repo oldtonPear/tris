@@ -77,23 +77,28 @@ public class Tris_Board extends javax.swing.JPanel implements Observer {
         }
         System.out.println("MY TURN!");
         myTurn = true;
+        System.out.println(sh.getBoard());
 
         int checkWin = checkForWin();
         if(checkWin == 0) updateButtons();
         if(checkWin == 1 || checkWin == 2 || checkWin == 3){
+            System.out.println(checkWin);
             if(checkWin == 1) System.out.println("YOU WIN!");
             if(checkWin == 2) System.out.println("YOU LOOSE!");
             if(checkWin == 3) System.out.println("TIE!");
             sh.setBoard("OK");
-            GUI_Main.changeWin();
             sh.setBoard("NNNNNNNNN");
+            updateButtons();
+            GUI_Main.changeWin();
         }
     }
 
     public int checkForWin(){
         String board = sh.getBoard();
         if(board.length() == 1){
-            return board.equals(player + "") ? 1 : 2;
+            if(board.equals("1")) return 1;
+            if(board.equals("2")) return 2;
+            if(board.equals("3")) return 3;
         }
         return 0;
     }
