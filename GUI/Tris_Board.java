@@ -90,6 +90,8 @@ public class Tris_Board extends javax.swing.JPanel implements Observer {
             sh.setBoard("NNNNNNNNN");
             updateButtons();
             GUI_Main.changeWin();
+            Server s = GUI_Main.getServer();
+            if (s != null) s.dispose();
         }
     }
 

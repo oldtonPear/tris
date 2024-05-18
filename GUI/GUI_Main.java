@@ -6,6 +6,7 @@ public class GUI_Main extends javax.swing.JFrame {
     private static Tris_Main mainMenu;
     private static Tris_Board trisBoard;
     private static Client client;
+    private static Server server;
 
     public static void main(String args[]) {
         try {
@@ -81,12 +82,16 @@ public class GUI_Main extends javax.swing.JFrame {
     }
 
     public static void createServer(int port) {
-        Server s = new Server(port);
-        s.start();
+        server = new Server(port);
+        server.start();
     }
 
     public static void changeWin() {
         trisBoard.setVisible(!trisBoard.isVisible());
         mainMenu.setVisible(!mainMenu.isVisible());
+    }
+
+    public static Server getServer(){
+        return server;
     }
 }

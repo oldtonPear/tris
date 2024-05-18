@@ -9,6 +9,8 @@ public class ControllerThread extends Thread {
     private ServerSocket ss;
     private Socket cs;
     private int port;
+
+    private boolean close = false;
     
     ControllerThread(int port) {
         this.port = port;
@@ -20,6 +22,7 @@ public class ControllerThread extends Thread {
             if (!PlayersHandler.isPlayerFound()) {
                 waitForConnection();
             }
+            if (close) break;
         }
     }
     
@@ -60,6 +63,7 @@ public class ControllerThread extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
     }
+
+    public synchronized void setClose(){close = true;}
 }

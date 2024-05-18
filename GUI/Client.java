@@ -91,6 +91,7 @@ public class Client extends Thread implements Observable{
             e.printStackTrace();
         }
     }
+
     public void online(){
         board = read();
         System.out.println("Board ricevuta:" + board);
@@ -113,6 +114,7 @@ public class Client extends Thread implements Observable{
     public void register(Observer o) {
         observers.add(o);
     }
+
     @Override
     public void notifyObservers() {
         observers.getFirst().update();
@@ -121,12 +123,15 @@ public class Client extends Thread implements Observable{
     public String getBoard() {
         return board;
     }
+
     public void setBoard(String board) {
         this.board = board;
     }
+
     public void setSh(Shared_board sh) {
         this.sh = sh;
     }
+    
     public int getPlayer() {
         return player;
     }

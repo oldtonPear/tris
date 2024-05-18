@@ -2,6 +2,7 @@ public class Server extends Thread{
 
     private ControllerThread controller;
     private int controllerPort;
+    private boolean close = false;
 
     private ServerThread[] serverThreads;
 
@@ -39,6 +40,13 @@ public class Server extends Thread{
                     controller.manageOutput("Ports already occupied!!");
                 }
             }
+            if (close) break;
         }
+    }
+
+    public void dispose(){
+        controller.setClose();
+        if (controller != null) controller.dispose();
+        synchronized (this) {close = true;}
     }
 }
