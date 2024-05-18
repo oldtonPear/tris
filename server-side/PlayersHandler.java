@@ -19,6 +19,7 @@ public abstract class PlayersHandler {
             board = winner + "";
         }
         System.out.println(board);
+        System.out.println(winner);
     }
 
     public static synchronized String getBoard() {
